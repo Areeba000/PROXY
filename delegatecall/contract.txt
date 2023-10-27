@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.16;
+contract Imp1 {
+    uint public a;
+    function setA(uint _a) public {
+        a = _a + 1;
+    }
+}
+
+contract Imp2 {
+     uint public a;
+    function setA(uint _a) public {
+        a = _a - 1;
+    }
+     
+}
+contract imp3{
+    uint public a;
+    uint public b;
+    function setA(uint _a)public{
+        a=_a*20;
+    }
+    function setB(uint _b)public{
+        b=_b+2;
+    }
+}
+
+contract delegatecall {
+   
+    uint public a;
+     uint public b;
+    address public aAddress;
+
+    constructor(address _aAddress) {
+        aAddress = _aAddress;
+    }
+
+    function updateImp(address _imp) public {
+        aAddress = _imp;
+    }
+   
+    function setA(address _contract, string memory _functionSignature, uint _arguments) public {
+        (bool success, bytes memory result) = _contract.delegatecall( abi.encodeWithSignature(_functionSignature, _arguments));
+        require(success, "delegatecall failed");
+    }
+    
+     
+}
